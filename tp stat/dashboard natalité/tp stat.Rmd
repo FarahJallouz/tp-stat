@@ -1,0 +1,57 @@
+---
+title: "tp_stat_desc"
+date: "2025-11-15"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(readxl)
+
+data <- read_excel("C:/Users/Asus/OneDrive/Desktop/tp stat/dashboard natalité/don_mls.xlsx")
+data
+```
+
+```{r}
+data2 <- as.data.frame(data)
+plot(data)
+```
+
+```{r}
+data2
+```
+
+```{r}
+modele <- lm(data$`Taux de natalité` ~ data$`Taux d'urbanisation`)
+summary(modele)
+```
+
+```{r}
+library(ggplot2)
+
+ggplot(data, aes(x = `Taux d'urbanisation`)) +
+    geom_point(aes(y = `Taux de natalité`), color = "blue") +
+    geom_point(aes(y = fitted(modele)), color = "red")
+```
+
+```{r}
+library(ggplot2)
+zone1 <- -0.3989 * 68 + 42.990
+zone2 <- -0.3989 * 19 + 42.990
+zone1
+```
+
+```{r}
+zone2
+```
+
+```{r}
+ggplot(data, aes(x = `Taux d'urbanisation`)) +
+    geom_point(aes(y = `Taux de natalité`), color = "blue") +
+    geom_point(aes(y = fitted(modele)), color = "red") +
+    geom_point(aes(x = 68, y = zone1), color = "black", size = 2, shape = 15) +
+    geom_point(aes(x = 19, y = zone2), color = "black", size = 2, shape = 15)
+```
